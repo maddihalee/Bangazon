@@ -26,9 +26,17 @@ builder.Services.Configure<JsonOptions>(options =>
 
 var app = builder.Build();
 
+// Get all Products
 app.MapGet("api/products", (BangazonDbContext db) =>
 {
     return db.Products.ToList();
+});
+
+// Get product details
+app.MapGet("api/products/{id}", (BangazonDbContext db, int id) =>
+{
+    Product product = db.Products.SingleOrDefault(pr => pr.Id == id);
+    return product;
 });
 
 // Configure the HTTP request pipeline.
