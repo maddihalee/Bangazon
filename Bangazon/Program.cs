@@ -74,6 +74,13 @@ app.MapPost("api/categories", (BangazonDbContext db, Category category) =>
 });
 
 // create product
+app.MapPost("api/products", (BangazonDbContext db, Product product) =>
+{
+    db.Products.Add(product);
+    db.SaveChanges();
+    return Results.Created($"/api/products/{product.Id}", product);
+});
+
 // delete order
 // create order
 // GET order with products by OrderId
