@@ -66,6 +66,13 @@ app.MapGet("api/categories", (BangazonDbContext db) =>
 });
 
 // create a category
+app.MapPost("api/categories", (BangazonDbContext db, Category category) =>
+{
+    db.Categories.Add(category);
+    db.SaveChanges();
+    return Results.Created($"/api/categories/{category.Id}", category);
+});
+
 // create product
 // delete order
 // create order
