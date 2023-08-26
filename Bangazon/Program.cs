@@ -82,7 +82,31 @@ app.MapPost("api/products", (BangazonDbContext db, Product product) =>
 });
 
 // delete order
+app.MapDelete("api/orders/{id}", (BangazonDbContext db, int id) =>
+{
+    Order order = db.Orders.SingleOrDefault(o => o.Id == id);
+    if (order == null)
+    {
+        return Results.NotFound();
+    }
+    db.Orders.Remove(order);
+    db.SaveChanges();
+    return Results.NoContent();
+});
+
 // create order
+app.MapPost("api/orders", (BangazonDbContext db, Order order) =>
+{
+    db.Orders.Add(order);
+    db.SaveChanges();
+    return Results.Created($"/api/orders/{order.Id}", order);
+});
+
+// get all orders
+app.MapGet("/api/orders", (BangazonDbContext db) => {
+    return db.Orders.ToList();
+});
+
 // GET order with products by OrderId
 // GET Product with related order (get product, see what order it's associated with)
 // get all products that have orders
