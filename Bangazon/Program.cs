@@ -51,8 +51,15 @@ app.MapDelete("api/products/{id}", (BangazonDbContext db, int id) =>
     db.SaveChanges();
     return Results.NoContent();
 });
+
 // get user by id
-// get product types
+app.MapGet("api/users/{id}", (BangazonDbContext db, int id) =>
+{
+    User user = db.Users.SingleOrDefault(user => user.Id == id);
+    return user;
+});
+
+// get product categories
 // create a category
 // create product
 // delete order
