@@ -39,6 +39,29 @@ app.MapGet("api/products/{id}", (BangazonDbContext db, int id) =>
     return product;
 });
 
+// delete product
+app.MapDelete("api/products/{id}", (BangazonDbContext db, int id) =>
+{
+    Product product = db.Products.SingleOrDefault(pr => pr.Id == id);
+    if (product == null)
+    {
+        return Results.NotFound();
+    }
+    db.Products.Remove(product);
+    db.SaveChanges();
+    return Results.NoContent();
+});
+// get user by id
+// get product types
+// create a category
+// create product
+// delete order
+// create order
+// GET order with products by OrderId
+// GET Product with related order (get product, see what order it's associated with)
+// get all products that have orders
+// Get a 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

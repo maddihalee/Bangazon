@@ -1,11 +1,9 @@
 ﻿namespace Bangazon.Models;
 
-    public class Order
+    public class Category
     {
     public int Id { get; set; }
-    public int UserId { get; set; }
-    public int OrderStatus { get; set; }
+    public string Name { get; set; }
     public ICollection<Product> Products { get; set; }
-
-    }
+}
 
