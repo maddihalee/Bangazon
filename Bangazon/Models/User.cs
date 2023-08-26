@@ -6,4 +6,6 @@ public class User
     public string UserName { get; set; }
     public int CustomerId { get; set; }
     public bool isSeller { get; set; }
+    public ICollection<Order> orders { get; set; }
+    public ICollection<PaymentType> paymentTypes { get; set; }
 }
