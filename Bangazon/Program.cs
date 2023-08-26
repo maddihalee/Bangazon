@@ -60,6 +60,11 @@ app.MapGet("api/users/{id}", (BangazonDbContext db, int id) =>
 });
 
 // get product categories
+app.MapGet("api/categories", (BangazonDbContext db) =>
+{
+    return db.Categories.ToList();
+});
+
 // create a category
 // create product
 // delete order
