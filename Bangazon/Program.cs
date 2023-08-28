@@ -2,6 +2,7 @@ using Bangazon.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
+//using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -108,7 +109,24 @@ app.MapGet("/api/orders", (BangazonDbContext db) => {
 });
 
 // GET order with products by OrderId
+app.MapGet("api/orders/{id}/products", (BangazonDbContext db, int id) =>
+{
+    Order order = db.Orders
+    .Include(o => o.Products)
+    .SingleOrDefault(o => o.Id == id);
+
+    return Results.Ok(order);
+});
+
 // GET Product with related order (get product, see what order it's associated with)
+app.MapGet("api/products/{id}/orders", (BangazonDbContext db, int id) =>
+{
+    Product product = db.Products
+    .Include(p => p.Orders)
+    .FirstOrDefault(p => p.Id == id);
+
+    return Results.Ok(product);
+});
 // get all products that have orders
 // Get a 
 
