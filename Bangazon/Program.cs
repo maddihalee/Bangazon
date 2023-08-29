@@ -74,6 +74,19 @@ app.MapPost("api/categories", (BangazonDbContext db, Category category) =>
     return Results.Created($"/api/categories/{category.Id}", category);
 });
 
+// Delete a category
+app.MapDelete("api/categories", (BangazonDbContext db, int id) =>
+{
+    Category category = db.Categories.SingleOrDefault(category => category.Id == id);
+    if (category == null)
+    {
+        return Results.NotFound();
+    }
+    db.Categories.Remove(category);
+    db.SaveChanges();
+    return Results.NoContent();
+});
+
 // create product
 app.MapPost("api/products", (BangazonDbContext db, Product product) =>
 {
@@ -159,8 +172,22 @@ app.MapPut("api/products/{id}", (BangazonDbContext db, int id, Product product) 
     return Results.NoContent();
 });
 
-// get all products that have orders
-// Get a 
+// Update User
+app.MapPut("/user/{id}", (BangazonDbContext db, User user, int id) =>
+{
+    User userToUpdate = db.Users.SingleOrDefault(o => o.Id == id);
+    if (userToUpdate == null)
+    {
+        return Results.NotFound();
+    }
+    userToUpdate.UserName = user.UserName;
+    userToUpdate.CustomerId = user.CustomerId;
+    userToUpdate.isSeller = user.isSeller;
+
+    db.SaveChanges();
+    return Results.Created($"/api/user/user.Id", user);
+});
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
