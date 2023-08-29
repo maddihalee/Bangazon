@@ -4,6 +4,7 @@ public class User
 {  
     public int Id { get; set; }
     public string UserName { get; set; }
+    public string Password { get; set; }
     public int CustomerId { get; set; }
     public bool isSeller { get; set; }
     public ICollection<Order> orders { get; set; }

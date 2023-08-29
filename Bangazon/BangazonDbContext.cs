@@ -19,7 +19,7 @@ namespace Bangazon.Models;
 
         modelBuilder.Entity<User>().HasData(new User[]
         {
-            new User { Id = 1, UserName = "Test", CustomerId = 1, isSeller = false},
+            new User { Id = 1, UserName = "Test", Password = "Test1234", CustomerId = 1, isSeller = false},
         });
 
         modelBuilder.Entity<Product>().HasData(new Product[]
