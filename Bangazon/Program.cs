@@ -194,6 +194,14 @@ app.MapGet("/api/paymentTypes", (BangazonDbContext db) =>
     return db.PaymentTypes.ToList();
 });
 
+// create payment types
+app.MapPost("/api/paymentTypes", (BangazonDbContext db, PaymentType paymentType) =>
+{
+    db.PaymentTypes.Add(paymentType);
+    db.SaveChanges();
+    return Results.Created($"/api/paymentTypes/{paymentType.Id}", paymentType);
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
