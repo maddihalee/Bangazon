@@ -61,7 +61,11 @@ namespace Bangazon.Models;
         var categoryProduct = modelBuilder.Entity("CategoryProduct");
         categoryProduct.HasData(
             new { ProductsId = 1, CategoriesId = 543 },
-            new { ProductsId = 3, CategoriesId = 544 });
+            new { ProductsId = 2, CategoriesId = 543 },
+            new { ProductsId = 3, CategoriesId = 544 },
+            new { ProductsId = 4, CategoriesId = 544 },
+            new { ProductsId = 5, CategoriesId = 545 },
+            new { ProductsId = 6, CategoriesId = 545 });
     }
 }
 
