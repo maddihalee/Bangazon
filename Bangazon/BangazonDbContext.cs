@@ -52,9 +52,6 @@ namespace Bangazon.Models;
             new Category { Id = 545, Name = "Sports Equipment"}
         });
 
-        //var Fortnite = new Product { ProductId = 7, Name = "Fortnite", Description = "Fortnite", Price = 29.99M, Image = "https://m.media-amazon.com/images/M/MV5BNzU2YTY2OTgtZGZjZi00MTAyLThlYjUtMWM5ZmYzOGEyOWJhXkEyXkFqcGdeQXVyNTgyNTA4MjM@._V1_FMjpg_UX1000_.jpg" };
-        //var Order1 = new Order { OrderId = 124, UserId = 1 };
-
         var orderProduct = modelBuilder.Entity("OrderProduct");
         orderProduct.HasData(
             new { ProductsId = 1, OrdersId = 123 },
