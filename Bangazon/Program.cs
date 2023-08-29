@@ -173,7 +173,7 @@ app.MapPut("api/products/{id}", (BangazonDbContext db, int id, Product product) 
 });
 
 // Update User
-app.MapPut("/user/{id}", (BangazonDbContext db, User user, int id) =>
+app.MapPut("/api/user/{id}", (BangazonDbContext db, User user, int id) =>
 {
     User userToUpdate = db.Users.SingleOrDefault(o => o.Id == id);
     if (userToUpdate == null)
@@ -188,6 +188,11 @@ app.MapPut("/user/{id}", (BangazonDbContext db, User user, int id) =>
     return Results.Created($"/api/user/user.Id", user);
 });
 
+// Get Payment Types
+app.MapGet("/api/paymentTypes", (BangazonDbContext db) =>
+{
+    return db.PaymentTypes.ToList();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
