@@ -142,6 +142,23 @@ app.MapPut("/api/orders/{id}", (BangazonDbContext db, int id, Order order) =>
     return Results.NoContent();
 });
 
+// Update a Product
+app.MapPut("api/products/{id}", (BangazonDbContext db, int id, Product product) =>
+{
+    Product productToUpdate = db.Products.SingleOrDefault(product => product.Id == id);
+    if (productToUpdate == null)
+    {
+        return Results.NotFound();
+    }
+    productToUpdate.Name = product.Name;
+    productToUpdate.Description = product.Description;
+    productToUpdate.Price = product.Price;
+    productToUpdate.Image = product.Image;
+
+    db.SaveChanges();
+    return Results.NoContent();
+});
+
 // get all products that have orders
 // Get a 
 
