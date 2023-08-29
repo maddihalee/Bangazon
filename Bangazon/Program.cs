@@ -202,6 +202,38 @@ app.MapPost("/api/paymentTypes", (BangazonDbContext db, PaymentType paymentType)
     return Results.Created($"/api/paymentTypes/{paymentType.Id}", paymentType);
 });
 
+// Delete a product from an order 2.0
+app.MapDelete("api/orders/{orderId}/products/{productId}", (BangazonDbContext db, int orderId, int productId) =>
+{
+    var order = db.Orders.Include(o => o.Products).FirstOrDefault(o => o.Id == orderId);
+    if (order == null)
+    {
+        return Results.NotFound();
+    }
+    var productToRemove = order.Products.FirstOrDefault(p => p.Id == productId);
+    if (productToRemove == null)
+    {
+        return Results.NotFound();
+    }
+    order.Products.Remove(productToRemove);
+    db.SaveChanges();
+    return Results.NoContent();
+});
+
+// Add a product to an order
+app.MapPost("api/orders/{orderId}/products", (BangazonDbContext db, int orderId, int productId) =>
+{
+    Order order = db.Orders.Include(o => o.Products).FirstOrDefault(o => o.Id == orderId);
+    if (order == null)
+    {
+        return Results.NotFound();
+    }
+    Product productToAdd = db.Products.FirstOrDefault(p => p.Id == productId);
+    order.Products.Add(productToAdd);
+    db.SaveChanges();
+    return Results.Created($"/api/orders/{orderId}/products/{productToAdd.Id}", productToAdd);
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
