@@ -25,7 +25,21 @@ builder.Services.Configure<JsonOptions>(options =>
     options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000",
+                                "http://localhost:5169")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
+
+app.UseCors();
 
 // Get all Products
 app.MapGet("api/products", (BangazonDbContext db) =>
@@ -232,6 +246,17 @@ app.MapPost("api/orders/{orderId}/products", (BangazonDbContext db, int orderId,
     order.Products.Add(productToAdd);
     db.SaveChanges();
     return Results.Created($"/api/orders/{orderId}/products/{productToAdd.Id}", productToAdd);
+});
+
+// Check if user is in database
+app.MapGet("/api/checkuser/{uid}", (BangazonDbContext db, string uid) =>
+{
+    var userExist = db.Users.Where(x => x.CustomerId == uid).ToList();
+    if (userExist == null)
+    {
+        return Results.NotFound();
+    }
+    return Results.Ok(userExist);
 });
 
 // Configure the HTTP request pipeline.
