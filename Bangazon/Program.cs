@@ -194,7 +194,6 @@ app.MapPut("/api/user/{id}", (BangazonDbContext db, User user, int id) =>
     {
         return Results.NotFound();
     }
-    userToUpdate.UserName = user.UserName;
     userToUpdate.CustomerId = user.CustomerId;
     userToUpdate.isSeller = user.isSeller;
 
@@ -258,6 +257,21 @@ app.MapGet("/api/checkuser/{uid}", (BangazonDbContext db, string uid) =>
     }
     return Results.Ok(userExist);
 });
+
+// Create user
+app.MapPost("/api/user", (BangazonDbContext db, User user) =>
+{
+    db.Users.Add(user);
+    db.SaveChanges();
+    return Results.Created($"/api/user/user.Id", user);
+});
+
+// Get all users
+app.MapGet("/api/users", (BangazonDbContext db) =>
+{
+return db.Users.ToList();
+});
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
